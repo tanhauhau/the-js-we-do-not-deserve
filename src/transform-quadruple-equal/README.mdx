@@ -1,0 +1,114 @@
+# transform-quadruple-equal
+
+## Inspiration
+
+<blockquote class="twitter-tweet">
+  <p lang="en" dir="ltr">
+    ==== (&quot;really strict equals&quot;, same as{' '}
+    <a href="https://t.co/LMVvSIFdpx">https://t.co/LMVvSIFdpx</a>)
+  </p>
+  &mdash; getify (@getify){' '}
+  <a href="https://twitter.com/getify/status/1285825895249383424?ref_src=twsrc%5Etfw">
+    July 22, 2020
+  </a>
+</blockquote>
+
+## Babel Plugin
+
+[![npm version](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-quadruple-equal.svg)](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-quadruple-equal)
+
+This is something you can't just do with babel transform plugin.
+
+Because the following:
+
+```js
+a ==== b
+```
+
+is not a valid JavaScript syntax.
+
+So, we need to first [fork the babel parser](https://lihautan.com/creating-custom-javascript-syntax-with-babel/).
+
+To add support a new operator, we update the tokenizer to recognise one extra `=` character:
+
+```js
+// filename: https://github.com/babel/babel/tree/master/packages/babel-parser/src/tokenizer/index.js
+
+// Before
+export default class Tokenizer extends ParserErrors {
+  // ...
+  readToken_eq_excl(code: number): void {
+    // '=!'
+    const next = this.input.charCodeAt(this.state.pos + 1);
+    if (next === charCodes.equalsTo) {
+      this.finishOp(
+        tt.equality,
+        this.input.charCodeAt(this.state.pos + 2) === charCodes.equalsTo
+          ? 3
+          : 2,
+      );
+      return;
+    }
+    // ...
+  }
+}
+
+// After
+export default class Tokenizer extends ParserErrors {
+  // ...
+  readToken_eq_excl(code: number): void {
+    // '=!'
+    const next = this.input.charCodeAt(this.state.pos + 1);
+    if (next === charCodes.equalsTo) {
+      this.finishOp(
+        tt.equality,
+        this.input.charCodeAt(this.state.pos + 2) === charCodes.equalsTo
+          ? this.input.charCodeAt(this.state.pos + 3) === charCodes.equalsTo
+            ? 4
+            : 3
+          : 2,
+      );
+      return;
+    }
+    // ...
+  }
+}
+```
+
+Now as `====` and `!===` become a valid token, babel will it treat it the same way as `===` and `!==` token.
+
+The Babel plugin itself is straightforward.
+
+`a ==== b` will form a binary expression, and we are going to transform it into `Object.is(a, b)`.
+
+```js
+a ==== b;
+c !=== d;
+
+// into
+Object.is(a, b);
+!Object.is(c, d);
+```
+
+```js
+export default function ({ template }) {
+  return {
+    name: 'transform-quadruple-equal',
+    visitor: {
+      BinaryExpression(path) {
+        if (path.node.operator === '====') {
+          path.replaceWith(
+            template.expression`Object.is(${path.node.left}, ${path.node.right})`()
+          );
+        } else if (path.node.operator === '!===') {
+          path.replaceWith(
+            template.expression`!Object.is(${path.node.left}, ${path.node.right})`()
+          );
+        }
+      },
+    },
+  };
+}
+```
+
+Over here I used [babel.template](https://babeljs.io/docs/en/babel-template) which provides utility functions to create Babel AST using tagged template literal.

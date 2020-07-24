@@ -1,0 +1,90 @@
+# transform-roman-numbers
+
+## Inspiration
+
+<blockquote class="twitter-tweet">
+  <p lang="en" dir="ltr">
+    Roman numerals. Mandatory for floating point numbers.
+  </p>
+  &mdash; Bogdan Marinescu (@bogdanm78) <a href="https://twitter.com/bogdanm78/status/1285867389989552128?ref_src=twsrc%5Etfw">July 22, 2020</a>
+</blockquote>
+
+## Babel Plugin
+
+[![npm version](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-roman-numbers.svg)](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-roman-numbers)
+
+OK, I'm a bit lazy over here. I just going to support only integer roman numerals.
+
+The following is a valid JavaScript syntax:
+
+```js
+let a = II;
+b(VI);
+```
+
+as `II` is just a normal variable.
+
+If the variable name is a roman numeric, we are going to transpile them into a `number`.
+
+```js
+let a = 2;
+b(6);
+```
+
+So it would work like JavaScript supports roman numeric.
+
+Of course not all variable name are free to modify:
+
+```js
+II(a);
+const III = { IV: b };
+class XI {
+  XC() {}
+}
+```
+
+The above is a valid JS, but it does not make sense to turn them into number, as function call expression, variable declaration, class name and method does not allow number as the sole variable name.
+
+```js
+2(a);
+const 3 = { 4: b };
+class 11 {
+  90() {}
+}
+```
+
+Although `{ 4: b }` looks valid. 🤔
+
+I realised that the places of a variable can be interpreted as roman numeric is limited, so it's easier to whitelist those places rather than blacklist places it shouldn't be appear.
+
+```js
+import { isValidRoman, romanToArab } from 'roman-numbers';
+
+export default function ({ types: t }) {
+  return {
+    name: 'roman-numbers',
+    visitor: {
+      Identifier(path) {
+        const { parent, node } = path;
+        if (
+          // const a = II
+          (t.isVariableDeclarator(parent) && parent.init === node) ||
+          // { a: II }
+          (t.isObjectProperty(parent) && !parent.method) ||
+          // [II]
+          t.isArrayExpression(parent) ||
+          // const { a: b = II } = c
+          (t.isAssignmentExpression(parent) && parent.right === node) ||
+          // function a({ a: b = II }) {}
+          (t.isAssignmentPattern(parent) && parent.right === node)
+        ) {
+          const name = node.name;
+          if (isValidRoman(name) && !path.scope.hasBinding(name)) {
+            path.replaceWith(t.numericLiteral(romanToArab(name)));
+          }
+        }
+      },
+    },
+  };
+}
+```

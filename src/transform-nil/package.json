@@ -1,0 +1,7 @@
+{
+  "name": "@lihautan/babel-plugin-transform-nil",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Tan Li Hau <lhtan93@gmail.com>",
+  "license": "MIT"
+}

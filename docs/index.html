@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    :root {
+      --nav-height: 40px;
+    }
+
+    #app> :not(:target) {
+      display: none;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background-color: white;
+    }
+
+    section {
+      padding-top: var(--nav-height);
+    }
+    section:first-child {
+      margin-top: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="#TransformQuadrupleEqual">TransformQuadrupleEqual</a>
+    <a href="#TransformRomanNumbers">TransformRomanNumbers</a>
+  </nav>
+  <main id="app">
+    <section id="TransformQuadrupleEqual"></section>
+    <section id="TransformRomanNumbers"></section>
+  </main>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script type="module">
+    import TransformQuadrupleEqual from '/TransformQuadrupleEqual.js';
+    import TransformRomanNumbers from '/TransformRomanNumbers.js';
+
+    new TransformQuadrupleEqual({ target: document.querySelector('#TransformQuadrupleEqual') });
+    new TransformRomanNumbers({ target: document.querySelector('#TransformRomanNumbers') });
+  </script>
+</body>
+
+</html>

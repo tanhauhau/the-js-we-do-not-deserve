@@ -1,0 +1,13 @@
+{
+  "name": "the-js-not-have",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:tanhauhau/the-js-not-have.git",
+  "author": "Tan Li Hau <lhtan93@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mdsvex": "^0.8.2",
+    "svelte": "^3.24.0",
+    "tiny-glob": "^0.2.6"
+  }
+}
