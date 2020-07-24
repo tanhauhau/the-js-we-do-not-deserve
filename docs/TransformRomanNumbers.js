@@ -9,7 +9,7 @@ import {
 	noop,
 	safe_not_equal,
 	space
-} from "/svelte/internal.js";
+} from "/the-js-not-have/svelte/internal.js";
 
 function create_fragment(ctx) {
 	let h1;
