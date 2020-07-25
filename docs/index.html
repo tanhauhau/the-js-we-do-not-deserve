@@ -69,6 +69,7 @@ async function render() {
   if (_hash === hash && !rendered[hash]) {
     new Component({ target: document.querySelector('#' + hash) });
     rendered[hash] = true;
+    if (window.twttr.init === true) window.twttr.widgets.load();
   }
 }
 
