@@ -1,0 +1,204 @@
+# transform-destructure-number
+
+## Inspiration
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Number destructuring.<br><br>let a.b = 3.142;<br><br>a === 3 // true<br>b === 142 // true</p>&mdash; 🌅 Iron Therapy 🌇 (@__Jonathanks) <a href="https://twitter.com/__Jonathanks/status/1285874999589576705?ref_src=twsrc%5Etfw">July 22, 2020</a></blockquote>
+
+## 💡 The Idea
+
+Destructuring decimal number via `.`?
+
+Cool! 😎
+
+Too bad it's not a valid syntax:
+
+```js
+let a.b = 3.142;
+a === 3; // true
+b === 142; // true
+```
+
+Which means, this require us to [fork the babel parser](https://lihautan.com/creating-custom-javascript-syntax-with-babel/).
+
+We can create a parser plugin to extend the existing parsing method. This allow us to turn on / off the parser plugin from the transform plugin. This is just like how babel typescript plugin or flow plugin works.
+
+```diff-js
+// filename: https://github.com/babel/babel/tree/master/packages/babel-parser/src/plugin-utils.js
+
+import estree from "./plugins/estree";
++import jsWeDoNotDeserve from "./plugins/jsWeDoNotDeserve";
+import flow from "./plugins/flow";
+import jsx from "./plugins/jsx";
+import typescript from "./plugins/typescript";
+
+// ...
+
+export const mixinPlugins: { [name: string]: MixinPlugin } = {
+   estree,
++  jsWeDoNotDeserve,
+   jsx,
+   // ...
+```
+
+We can first copy the original implementation of `parseVarId`, the method to parse variable name in a `VariableDeclarator`.
+
+If we encounter a `.` token after the variable name, we create a different AST node, `DestructureNumberPattern` instead.
+
+```js
+const a.b = 1.3;
+
+// ...
+{
+  type: "VariableDeclarator",
+  id: {
+    type: "DestructureNumberPattern",
+    left: {
+      type: "Identifier",
+      name: "a",
+    },
+    right: {
+      type: "Identifier",
+      name: "b",
+    },
+  },
+  init: {
+    type: "NumericLiteral",
+    value: 1.3,
+  },
+}
+```
+
+```diff-js
+// filename: packages/babel-parser/src/plugins/jsNext.js
+// @flow
+import { types as tt, type TokenType } from '../tokenizer/types';
+import type Parser from '../parser';
+import * as N from '../types';
+import {
+  type BindingTypes,
+  BIND_NONE,
+  BIND_LEXICAL,
+  BIND_VAR,
+} from '../util/scopeflags';
+
+export default (superClass: Class<Parser>): Class<Parser> =>
+  class extends superClass {
+    parseVarId(
+      decl: N.VariableDeclarator,
+      kind: 'var' | 'let' | 'const'
+    ): void {
+      const startPos = this.state.start;
+      const startLoc = this.state.startLoc;
+
++      decl.id = this.parseBindingAtom();
++      if (this.eat(tt.dot) && decl.id.type === 'Identifier') {
++        const node = this.startNodeAt(startPos, startLoc);
++        node.left = decl.id;
++        node.right = this.parseIdentifier();
++        decl.id = this.finishNode(node, 'DestructureNumberPattern');
++      }
+      this.checkLVal(
+        decl.id,
+        kind === 'var' ? BIND_VAR : BIND_LEXICAL,
+        undefined,
+        'variable declaration',
+        kind !== 'var'
+      );
+    }
+
+    checkLVal(
+      expr: N.Expression,
+      bindingType: BindingTypes = BIND_NONE,
+      checkClashes: ?{ [key: string]: boolean },
+      contextDescription: string,
+      disallowLetBinding?: boolean
+    ): void {
+      switch (expr.type) {
+        case 'DestructureNumberPattern':
+          break;
+        default:
+          super.checkLVal(
+            expr,
+            bindingType,
+            checkClashes,
+            contextDescription,
+            disallowLetBinding
+          );
+      }
+    }
+  };
+```
+
+After we've make sure the parser can parse the code, now its time to figure out how we should transpile the code into.
+
+We can use array destructuring, so,
+
+```js
+let a.b = 3.142
+```
+
+gets transpiled into 
+
+```js
+let [a, b] = [3, 142]
+```
+
+If there's no digit in front or behind the `.`, then we fallback to `0`:
+
+```js
+let c.d = 5;
+let e.f = .555;
+
+// into
+let [c, d] = [5, 0];
+let [e, f] = [0, 555];
+```
+
+## 📘 The Code
+
+```js
+export default function ({ types: t, template }) {
+  return {
+    name: 'transform-destructure-number',
+    visitor: {
+      VariableDeclarator(path) {
+        if (path.node.id.type === 'DestructureNumberPattern') {
+          if (t.isNumericLiteral(path.node.init)) {
+            const [a, b] = path.node.init.extra.raw.split('.');
+
+            path.replaceWith(
+              template.statement`let [${path.node.id.left}, ${
+                path.node.id.right
+              }] = [${a || '0'}, ${b || '0'}]`().declarations[0]
+            );
+          } else {
+            throw new Error('Destructure number with number!');
+          }
+        }
+      },
+    },
+  };
+}
+```
+
+## 🧪 Try it out
+
+<iframe
+  src="https://codesandbox.io/embed/javascript--weskh?expanddevtools=1&fontsize=14&hidenavigation=1&theme=light"
+  style="width:100%; height:500px; border:4px solid; box-shadow: 5px 5px 0 #2aa3ef; overflow:hidden;"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+## 🥰 Tweet
+
+<a
+  href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+  class="twitter-share-button"
+  data-show-count="false"
+>
+  Tweet
+</a>
+
+## 📦 Babel Plugin
+
+[![npm version](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-destructure-number.svg)](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-destructure-number)

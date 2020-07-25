@@ -1,0 +1,18 @@
+# List of Babel plugins
+
+<ul>
+{#each plugins as plugin}
+  <li><a href={'#' + plugin}>{toPkgName(plugin)}</a></li>  
+{/each}
+</ul>
+
+<Disclaimer />
+
+<script>
+  import Disclaimer from './Disclaimer.js';
+  const plugins = Array.from(window.DATA).filter(name => name.startsWith('Transform'));
+
+  function toPkgName(str) {
+    return '@lihautan/babel-plugin' + str.replace(/[A-Z]/g, (char) => '-' + char.toLowerCase());
+  }
+</script>

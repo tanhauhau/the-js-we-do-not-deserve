@@ -7,15 +7,10 @@
     ==== (&quot;really strict equals&quot;, same as{' '}
     <a href="https://t.co/LMVvSIFdpx">https://t.co/LMVvSIFdpx</a>)
   </p>
-  &mdash; getify (@getify){' '}
-  <a href="https://twitter.com/getify/status/1285825895249383424?ref_src=twsrc%5Etfw">
-    July 22, 2020
-  </a>
+  &mdash; getify (@getify) <a href="https://twitter.com/getify/status/1285825895249383424?ref_src=twsrc%5Etfw">July 22, 2020</a>
 </blockquote>
 
-## Babel Plugin
-
-[![npm version](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-quadruple-equal.svg)](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-quadruple-equal)
+## 💡 The Idea
 
 This is something you can't just do with babel transform plugin.
 
@@ -31,10 +26,9 @@ So, we need to first [fork the babel parser](https://lihautan.com/creating-custo
 
 To add support a new operator, we update the tokenizer to recognise one extra `=` character:
 
-```js
+```diff-js
 // filename: https://github.com/babel/babel/tree/master/packages/babel-parser/src/tokenizer/index.js
 
-// Before
 export default class Tokenizer extends ParserErrors {
   // ...
   readToken_eq_excl(code: number): void {
@@ -43,30 +37,12 @@ export default class Tokenizer extends ParserErrors {
     if (next === charCodes.equalsTo) {
       this.finishOp(
         tt.equality,
-        this.input.charCodeAt(this.state.pos + 2) === charCodes.equalsTo
-          ? 3
-          : 2,
-      );
-      return;
-    }
-    // ...
-  }
-}
-
-// After
-export default class Tokenizer extends ParserErrors {
-  // ...
-  readToken_eq_excl(code: number): void {
-    // '=!'
-    const next = this.input.charCodeAt(this.state.pos + 1);
-    if (next === charCodes.equalsTo) {
-      this.finishOp(
-        tt.equality,
-        this.input.charCodeAt(this.state.pos + 2) === charCodes.equalsTo
-          ? this.input.charCodeAt(this.state.pos + 3) === charCodes.equalsTo
-            ? 4
-            : 3
-          : 2,
+-        this.input.charCodeAt(this.state.pos + 2) === charCodes.equalsTo ? 3 : 2
++        this.input.charCodeAt(this.state.pos + 2) === charCodes.equalsTo
++          ? this.input.charCodeAt(this.state.pos + 3) === charCodes.equalsTo
++            ? 4
++            : 3
++          : 2
       );
       return;
     }
@@ -90,6 +66,8 @@ Object.is(a, b);
 !Object.is(c, d);
 ```
 
+## 📘 The Code
+
 ```js
 export default function ({ template }) {
   return {
@@ -112,3 +90,17 @@ export default function ({ template }) {
 ```
 
 Over here I used [babel.template](https://babeljs.io/docs/en/babel-template) which provides utility functions to create Babel AST using tagged template literal.
+
+## 🧪 Try it out
+
+<iframe
+  src="https://codesandbox.io/embed/javascript--n0iic?expanddevtools=1&fontsize=14&hidenavigation=1&theme=light"
+  style="width:100%; height:500px; border:4px solid; box-shadow: 5px 5px 0 #2aa3ef; overflow:hidden;"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+
+## Babel Plugin
+
+[![npm version](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-quadruple-equal.svg)](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-quadruple-equal)

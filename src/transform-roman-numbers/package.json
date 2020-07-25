@@ -1,6 +1,6 @@
 {
   "name": "@lihautan/babel-plugin-transform-roman-numbers",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "index.js",
   "author": "Tan Li Hau <lhtan93@gmail.com>",
   "license": "MIT",

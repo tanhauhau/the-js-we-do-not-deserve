@@ -10,7 +10,7 @@ export default function ({ types: t, template }) {
             path.replaceWith(
               template.statement`let [${path.node.id.left}, ${
                 path.node.id.right
-              }] = [${a}, ${b || '0'}]`().declarations[0]
+              }] = [${a || '0'}, ${b || '0'}]`().declarations[0]
             );
           } else {
             throw new Error('Destructure number with number!');

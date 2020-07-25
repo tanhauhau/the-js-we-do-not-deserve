@@ -2,50 +2,94 @@
 <html>
 
 <head>
-  <style>
-    :root {
-      --nav-height: 40px;
-    }
-
-    #app> :not(:target) {
-      display: none;
-    }
-
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: var(--nav-height);
-      background-color: white;
-    }
-
-    section {
-      padding-top: var(--nav-height);
-    }
-    section:first-child {
-      margin-top: 0;
-    }
-  </style>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@lihautan">
+  <meta name="twitter:title" content="The JavaScript we do not Deserve">
+  <meta name="twitter:description" content="The JavaScript we do not deserve is here.">
+  <meta name="twitter:image" content="https://lihautan.com/the-js-we-do-not-deserve/twitter.jpg">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Recursive:wght@300&family=Source+Code+Pro&display=swap"
+    rel="stylesheet">
+  <link href="/main.css" rel="stylesheet">
 </head>
 
 <body>
-  <nav>
-    <a href="#TransformQuadrupleEqual">TransformQuadrupleEqual</a>
-    <a href="#TransformRomanNumbers">TransformRomanNumbers</a>
-  </nav>
-  <main id="app">
-    <section id="TransformQuadrupleEqual"></section>
-    <section id="TransformRomanNumbers"></section>
-  </main>
+  <nav><a href="#Demo">Try it out</a> | <a href="#Plugins">Babel Plugin</a> | <a href="#Resources">Resources</a></nav>
+  <main id="app"></main>
+  <footer>Built by <a href="https://twitter.com/lihautan">@lihautan</a> with <a href="https://svelte.dev/">Svelte</a> |
+    <a href="https://github.com/tanhauhau/the-js-we-do-not-deserve">Github</a>
+  </footer>
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  <script type="module">
-    import TransformQuadrupleEqual from '/the-js-not-have/TransformQuadrupleEqual.js';
-    import TransformRomanNumbers from '/the-js-not-have/TransformRomanNumbers.js';
+  <script>self.BASE_URL = '';</script>
+  <script type="module">const DATA = new Set(["TransformDestructureNumber","TransformNil","TransformQuadrupleEqual","TransformRomanNumbers","Demo","Disclaimer","Index","Plugins","Resources"]);window.DATA = DATA;let hash = window.location.hash.slice(1);
+let appContainer = document.querySelector('#app');
+let nav = document.querySelector('nav');
 
-    new TransformQuadrupleEqual({ target: document.querySelector('#TransformQuadrupleEqual') });
-    new TransformRomanNumbers({ target: document.querySelector('#TransformRomanNumbers') });
-  </script>
+const components = {};
+const rendered = {};
+
+init();
+render();
+
+window.addEventListener(
+  'hashchange',
+  () => {
+    hash = window.location.hash.slice(1);
+    render();
+  },
+  false
+);
+
+function init() {
+  let html = '';
+  DATA.forEach((page) => {
+    html += `<section id="${page}"></section>`;
+  });
+  appContainer.innerHTML = html;
+
+  redirectToIndex();
+  components[hash] = import(window.BASE_URL + '/' + hash + '.js').then(
+    (mod) => mod.default
+  );
+
+  setTimeout(() => {
+    DATA.forEach((page) => {
+      components[page] = import(window.BASE_URL + '/' + page + '.js').then(
+        (mod) => mod.default
+      );
+    });
+  });
+  render();
+}
+
+async function render() {
+  if (rendered[hash]) return;
+  let _hash = hash;
+  const Component = await components[hash];
+  if (_hash === hash && !rendered[hash]) {
+    console.log('!!render', hash, Component);
+    new Component({ target: document.querySelector('#' + hash) });
+    rendered[hash] = true;
+  }
+}
+
+function redirectToIndex() {
+  if (!hash || !DATA.has(hash)) {
+    window.location.hash = '#Index';
+    return true;
+  }
+}
+
+function rIC(fn) {
+  let schedule;
+  if (typeof requestIdleCallback !== 'undefined') {
+    schedule = requestIdleCallback;
+  } else {
+    schedule = setTimeout;
+  }
+  schedule(fn);
+}
+</script>
 </body>
 
 </html>

@@ -1,0 +1,56 @@
+# transform-nil
+
+## Inspiration
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">`nil`<br><br>We already have `null` and `undefined`. Why not one more?</p>&mdash; Sindre Sorhus (@sindresorhus) <a href="https://twitter.com/sindresorhus/status/1285838869946982400?ref_src=twsrc%5Etfw">July 22, 2020</a></blockquote>
+
+## 💡 The Idea
+
+How about `nil` keyword for a noop function?
+
+```js
+function expectFn(fn = nil) {
+  fn();
+}
+```
+
+The above JS code is a valid syntax, `nil` is just a normal variable.
+
+The idea is to replace `nil` with an inline function
+
+```js
+function expectFn(fn = () => {}) {
+  fn();
+}
+```
+
+## 📘 The Code
+
+```js
+export default function ({ types: t }) {
+  return {
+    name: 'transform-nil',
+    visitor: {
+      Identifier(path) {
+        if (path.node.name === 'nil') {
+          path.replaceWith(t.arrowFunctionExpression([], t.blockStatement([])));
+        }
+      },
+    },
+  };
+}
+```
+
+## 🧪 Try it out
+
+<iframe
+  src="https://codesandbox.io/embed/javascript--g51d8?expanddevtools=1&fontsize=14&hidenavigation=1&theme=light"
+  style="width:100%; height:500px; border:4px solid; box-shadow: 5px 5px 0 #2aa3ef; overflow:hidden;"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+
+## 📦 Babel Plugin
+
+[![npm version](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-nil.svg)](https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-nil)

@@ -16,7 +16,11 @@ export default function ({ types: t }) {
           // const { a: b = II } = c
           (t.isAssignmentExpression(parent) && parent.right === node) ||
           // function a({ a: b = II }) {}
-          (t.isAssignmentPattern(parent) && parent.right === node)
+          (t.isAssignmentPattern(parent) && parent.right === node) ||
+          // II + III
+          (t.isBinaryExpression(parent)) ||
+          // II++
+          (t.isUpdateExpression(parent))
         ) {
           const name = node.name;
           if (isValidRoman(name) && !path.scope.hasBinding(name)) {

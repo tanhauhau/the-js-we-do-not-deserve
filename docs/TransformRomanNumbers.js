@@ -8,6 +8,7 @@ import {
 	insert,
 	noop,
 	safe_not_equal,
+	set_style,
 	space
 } from "/the-js-not-have/svelte/internal.js";
 
@@ -21,33 +22,31 @@ function create_fragment(ctx) {
 	let h21;
 	let t9;
 	let p1;
-	let t10;
+	let t11;
 	let p2;
-	let t12;
-	let p3;
-	let t14;
+	let t13;
 	let pre0;
 
 	let raw0_value = `
 <code class="language-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token constant">II</span><span class="token punctuation">;</span>
 <span class="token function">b</span><span class="token punctuation">(</span><span class="token constant">VI</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code>` + "";
 
-	let t15;
+	let t14;
+	let p3;
+	let t18;
 	let p4;
-	let t19;
-	let p5;
-	let t23;
+	let t22;
 	let pre1;
 
 	let raw1_value = `
 <code class="language-js"><span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
 <span class="token function">b</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code>` + "";
 
-	let t24;
+	let t23;
+	let p5;
+	let t25;
 	let p6;
-	let t26;
-	let p7;
-	let t28;
+	let t27;
 	let pre2;
 
 	let raw2_value = `
@@ -57,9 +56,9 @@ function create_fragment(ctx) {
   <span class="token constant">XC</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code>` + "";
 
-	let t29;
-	let p8;
-	let t31;
+	let t28;
+	let p7;
+	let t30;
 	let pre3;
 
 	let raw3_value = `
@@ -69,11 +68,13 @@ function create_fragment(ctx) {
   <span class="token number">90</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code>` + "";
 
-	let t32;
+	let t31;
+	let p8;
+	let t35;
 	let p9;
-	let t36;
-	let p10;
-	let t38;
+	let t37;
+	let h22;
+	let t39;
 	let pre4;
 
 	let raw4_value = `
@@ -95,7 +96,11 @@ function create_fragment(ctx) {
           <span class="token comment">// const &#123; a: b = II &#125; = c</span>
           <span class="token punctuation">(</span>t<span class="token punctuation">.</span><span class="token function">isAssignmentExpression</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> parent<span class="token punctuation">.</span>right <span class="token operator">===</span> node<span class="token punctuation">)</span> <span class="token operator">||</span>
           <span class="token comment">// function a(&#123; a: b = II &#125;) &#123;&#125;</span>
-          <span class="token punctuation">(</span>t<span class="token punctuation">.</span><span class="token function">isAssignmentPattern</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> parent<span class="token punctuation">.</span>right <span class="token operator">===</span> node<span class="token punctuation">)</span>
+          <span class="token punctuation">(</span>t<span class="token punctuation">.</span><span class="token function">isAssignmentPattern</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> parent<span class="token punctuation">.</span>right <span class="token operator">===</span> node<span class="token punctuation">)</span> <span class="token operator">||</span>
+          <span class="token comment">// II + III</span>
+          <span class="token punctuation">(</span>t<span class="token punctuation">.</span><span class="token function">isBinaryExpression</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">||</span>
+          <span class="token comment">// II++</span>
+          <span class="token punctuation">(</span>t<span class="token punctuation">.</span><span class="token function">isUpdateExpression</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span><span class="token punctuation">)</span>
         <span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
           <span class="token keyword">const</span> name <span class="token operator">=</span> node<span class="token punctuation">.</span>name<span class="token punctuation">;</span>
           <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isValidRoman</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>path<span class="token punctuation">.</span>scope<span class="token punctuation">.</span><span class="token function">hasBinding</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
@@ -106,6 +111,18 @@ function create_fragment(ctx) {
     <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
   <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span></code>` + "";
+
+	let t40;
+	let h23;
+	let t42;
+	let iframe;
+	let iframe_src_value;
+	let t43;
+	let a1;
+	let t45;
+	let h24;
+	let t47;
+	let p10;
 
 	return {
 		c() {
@@ -122,53 +139,77 @@ function create_fragment(ctx) {
 
 			t7 = space();
 			h21 = element("h2");
-			h21.textContent = "Babel Plugin";
+			h21.textContent = "💡 The Idea";
 			t9 = space();
 			p1 = element("p");
-			p1.innerHTML = `<a href="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-roman-numbers" rel="nofollow"><img src="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-roman-numbers.svg" alt="npm version"></a>`;
-			t10 = space();
+			p1.textContent = "OK, I’m a bit lazy over here. I just going to support only integer roman numerals.";
+			t11 = space();
 			p2 = element("p");
-			p2.textContent = "OK, I’m a bit lazy over here. I just going to support only integer roman numerals.";
-			t12 = space();
-			p3 = element("p");
-			p3.textContent = "The following is a valid JavaScript syntax:";
-			t14 = space();
+			p2.textContent = "The following is a valid JavaScript syntax:";
+			t13 = space();
 			pre0 = element("pre");
-			t15 = space();
+			t14 = space();
+			p3 = element("p");
+			p3.innerHTML = `as <code>II</code> is just a normal variable.`;
+			t18 = space();
 			p4 = element("p");
-			p4.innerHTML = `as <code>II</code> is just a normal variable.`;
-			t19 = space();
-			p5 = element("p");
-			p5.innerHTML = `If the variable name is a roman numeric, we are going to transpile them into a <code>number</code>.`;
-			t23 = space();
+			p4.innerHTML = `If the variable name is a roman numeric, we are going to transpile them into a <code>number</code>.`;
+			t22 = space();
 			pre1 = element("pre");
-			t24 = space();
+			t23 = space();
+			p5 = element("p");
+			p5.textContent = "So it would work like JavaScript supports roman numeric.";
+			t25 = space();
 			p6 = element("p");
-			p6.textContent = "So it would work like JavaScript supports roman numeric.";
-			t26 = space();
-			p7 = element("p");
-			p7.textContent = "Of course not all variable name are free to modify:";
-			t28 = space();
+			p6.textContent = "Of course not all variable name are free to modify:";
+			t27 = space();
 			pre2 = element("pre");
-			t29 = space();
-			p8 = element("p");
-			p8.textContent = "The above is a valid JS, but it does not make sense to turn them into number, as function call expression, variable declaration, class name and method does not allow number as the sole variable name.";
-			t31 = space();
+			t28 = space();
+			p7 = element("p");
+			p7.textContent = "The above is a valid JS, but it does not make sense to turn them into number, as function call expression, variable declaration, class name and method does not allow number as the sole variable name.";
+			t30 = space();
 			pre3 = element("pre");
-			t32 = space();
+			t31 = space();
+			p8 = element("p");
+			p8.innerHTML = `Although <code>{ 4: b }</code> looks valid. 🤔`;
+			t35 = space();
 			p9 = element("p");
-			p9.innerHTML = `Although <code>{ 4: b }</code> looks valid. 🤔`;
-			t36 = space();
-			p10 = element("p");
-			p10.textContent = "I realised that the places of a variable can be interpreted as roman numeric is limited, so it’s easier to whitelist those places rather than blacklist places it shouldn’t be appear.";
-			t38 = space();
+			p9.textContent = "I realised that the places of a variable can be interpreted as roman numeric is limited, so it’s easier to whitelist those places rather than blacklist places it shouldn’t be appear.";
+			t37 = space();
+			h22 = element("h2");
+			h22.textContent = "📘 The Code";
+			t39 = space();
 			pre4 = element("pre");
+			t40 = space();
+			h23 = element("h2");
+			h23.textContent = "🧪 Try it out";
+			t42 = space();
+			iframe = element("iframe");
+			t43 = space();
+			a1 = element("a");
+			a1.textContent = "Tweet";
+			t45 = space();
+			h24 = element("h2");
+			h24.textContent = "📦 Babel Plugin";
+			t47 = space();
+			p10 = element("p");
+			p10.innerHTML = `<a href="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-roman-numbers" rel="nofollow"><img src="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-roman-numbers.svg" alt="npm version"></a>`;
 			attr(blockquote, "class", "twitter-tweet");
 			attr(pre0, "class", "language-js");
 			attr(pre1, "class", "language-js");
 			attr(pre2, "class", "language-js");
 			attr(pre3, "class", "language-js");
 			attr(pre4, "class", "language-js");
+			if (iframe.src !== (iframe_src_value = "https://codesandbox.io/embed/javascript--bbboh?expanddevtools=1&fontsize=14&hidenavigation=1&theme=light")) attr(iframe, "src", iframe_src_value);
+			set_style(iframe, "width", "100%");
+			set_style(iframe, "height", "500px");
+			set_style(iframe, "border", "4px solid");
+			set_style(iframe, "box-shadow", "5px 5px 0 #2aa3ef");
+			set_style(iframe, "overflow", "hidden");
+			attr(iframe, "sandbox", "allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts");
+			attr(a1, "href", "https://twitter.com/share?ref_src=twsrc%5Etfw");
+			attr(a1, "class", "twitter-share-button");
+			attr(a1, "data-show-count", "false");
 		},
 		m(target, anchor) {
 			insert(target, h1, anchor);
@@ -180,39 +221,49 @@ function create_fragment(ctx) {
 			insert(target, h21, anchor);
 			insert(target, t9, anchor);
 			insert(target, p1, anchor);
-			insert(target, t10, anchor);
+			insert(target, t11, anchor);
 			insert(target, p2, anchor);
-			insert(target, t12, anchor);
-			insert(target, p3, anchor);
-			insert(target, t14, anchor);
+			insert(target, t13, anchor);
 			insert(target, pre0, anchor);
 			pre0.innerHTML = raw0_value;
-			insert(target, t15, anchor);
+			insert(target, t14, anchor);
+			insert(target, p3, anchor);
+			insert(target, t18, anchor);
 			insert(target, p4, anchor);
-			insert(target, t19, anchor);
-			insert(target, p5, anchor);
-			insert(target, t23, anchor);
+			insert(target, t22, anchor);
 			insert(target, pre1, anchor);
 			pre1.innerHTML = raw1_value;
-			insert(target, t24, anchor);
+			insert(target, t23, anchor);
+			insert(target, p5, anchor);
+			insert(target, t25, anchor);
 			insert(target, p6, anchor);
-			insert(target, t26, anchor);
-			insert(target, p7, anchor);
-			insert(target, t28, anchor);
+			insert(target, t27, anchor);
 			insert(target, pre2, anchor);
 			pre2.innerHTML = raw2_value;
-			insert(target, t29, anchor);
-			insert(target, p8, anchor);
-			insert(target, t31, anchor);
+			insert(target, t28, anchor);
+			insert(target, p7, anchor);
+			insert(target, t30, anchor);
 			insert(target, pre3, anchor);
 			pre3.innerHTML = raw3_value;
-			insert(target, t32, anchor);
+			insert(target, t31, anchor);
+			insert(target, p8, anchor);
+			insert(target, t35, anchor);
 			insert(target, p9, anchor);
-			insert(target, t36, anchor);
-			insert(target, p10, anchor);
-			insert(target, t38, anchor);
+			insert(target, t37, anchor);
+			insert(target, h22, anchor);
+			insert(target, t39, anchor);
 			insert(target, pre4, anchor);
 			pre4.innerHTML = raw4_value;
+			insert(target, t40, anchor);
+			insert(target, h23, anchor);
+			insert(target, t42, anchor);
+			insert(target, iframe, anchor);
+			insert(target, t43, anchor);
+			insert(target, a1, anchor);
+			insert(target, t45, anchor);
+			insert(target, h24, anchor);
+			insert(target, t47, anchor);
+			insert(target, p10, anchor);
 		},
 		p: noop,
 		i: noop,
@@ -227,34 +278,44 @@ function create_fragment(ctx) {
 			if (detaching) detach(h21);
 			if (detaching) detach(t9);
 			if (detaching) detach(p1);
-			if (detaching) detach(t10);
+			if (detaching) detach(t11);
 			if (detaching) detach(p2);
-			if (detaching) detach(t12);
-			if (detaching) detach(p3);
-			if (detaching) detach(t14);
+			if (detaching) detach(t13);
 			if (detaching) detach(pre0);
-			if (detaching) detach(t15);
+			if (detaching) detach(t14);
+			if (detaching) detach(p3);
+			if (detaching) detach(t18);
 			if (detaching) detach(p4);
-			if (detaching) detach(t19);
-			if (detaching) detach(p5);
-			if (detaching) detach(t23);
+			if (detaching) detach(t22);
 			if (detaching) detach(pre1);
-			if (detaching) detach(t24);
+			if (detaching) detach(t23);
+			if (detaching) detach(p5);
+			if (detaching) detach(t25);
 			if (detaching) detach(p6);
-			if (detaching) detach(t26);
-			if (detaching) detach(p7);
-			if (detaching) detach(t28);
+			if (detaching) detach(t27);
 			if (detaching) detach(pre2);
-			if (detaching) detach(t29);
-			if (detaching) detach(p8);
-			if (detaching) detach(t31);
+			if (detaching) detach(t28);
+			if (detaching) detach(p7);
+			if (detaching) detach(t30);
 			if (detaching) detach(pre3);
-			if (detaching) detach(t32);
+			if (detaching) detach(t31);
+			if (detaching) detach(p8);
+			if (detaching) detach(t35);
 			if (detaching) detach(p9);
-			if (detaching) detach(t36);
-			if (detaching) detach(p10);
-			if (detaching) detach(t38);
+			if (detaching) detach(t37);
+			if (detaching) detach(h22);
+			if (detaching) detach(t39);
 			if (detaching) detach(pre4);
+			if (detaching) detach(t40);
+			if (detaching) detach(h23);
+			if (detaching) detach(t42);
+			if (detaching) detach(iframe);
+			if (detaching) detach(t43);
+			if (detaching) detach(a1);
+			if (detaching) detach(t45);
+			if (detaching) detach(h24);
+			if (detaching) detach(t47);
+			if (detaching) detach(p10);
 		}
 	};
 }

@@ -1,6 +1,6 @@
 {
   "name": "@lihautan/babel-plugin-transform-destructure-number",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "index.js",
   "author": "Tan Li Hau <lhtan93@gmail.com>",
   "license": "MIT",
