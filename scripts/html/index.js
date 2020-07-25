@@ -5,9 +5,6 @@ let nav = document.querySelector('nav');
 const components = {};
 const rendered = {};
 
-init();
-render();
-
 window.addEventListener(
   'hashchange',
   () => {
@@ -17,6 +14,8 @@ window.addEventListener(
   false
 );
 
+init();
+
 function init() {
   let html = '';
   DATA.forEach((page) => {
@@ -24,25 +23,24 @@ function init() {
   });
   appContainer.innerHTML = html;
 
-  redirectToIndex();
-  components[hash] = import(window.BASE_URL + '/' + hash + '.js').then(
-    (mod) => mod.default
-  );
+  if (!redirectToIndex()) {
+    render();
+  }
 
   setTimeout(() => {
     DATA.forEach((page) => {
-      components[page] = import(window.BASE_URL + '/' + page + '.js').then(
-        (mod) => mod.default
-      );
+      // TODO: prefetch
+      import(window.BASE_URL + '/' + page + '.js');
     });
   });
-  render();
 }
 
 async function render() {
   if (rendered[hash]) return;
   let _hash = hash;
-  const Component = await components[hash];
+  const { default: Component } = await import(
+    window.BASE_URL + '/' + hash + '.js'
+  );
   if (_hash === hash && !rendered[hash]) {
     new Component({ target: document.querySelector('#' + hash) });
     rendered[hash] = true;

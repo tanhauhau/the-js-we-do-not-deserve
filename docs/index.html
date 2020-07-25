@@ -21,16 +21,12 @@
     <a href="https://github.com/tanhauhau/the-js-we-do-not-deserve">Github</a>
   </footer>
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  <script>self.BASE_URL = '/the-js-we-do-not-deserve';</script>
-  <script type="module">const DATA = new Set(["TransformDestructureNumber","TransformNil","TransformQuadrupleEqual","TransformRomanNumbers","Demo","Disclaimer","Index","Plugins","Resources"]);window.DATA = DATA;let hash = window.location.hash.slice(1);
+  <script>self.BASE_URL = '/the-js-we-do-not-deserve';</script><script type="module">const DATA = new Set(["TransformDestructureNumber","TransformNil","TransformQuadrupleEqual","TransformRomanNumbers","Demo","Disclaimer","Index","Plugins","Resources"]);window.DATA = DATA;let hash = window.location.hash.slice(1);
 let appContainer = document.querySelector('#app');
 let nav = document.querySelector('nav');
 
 const components = {};
 const rendered = {};
-
-init();
-render();
 
 window.addEventListener(
   'hashchange',
@@ -41,6 +37,8 @@ window.addEventListener(
   false
 );
 
+init();
+
 function init() {
   let html = '';
   DATA.forEach((page) => {
@@ -48,25 +46,24 @@ function init() {
   });
   appContainer.innerHTML = html;
 
-  redirectToIndex();
-  components[hash] = import(window.BASE_URL + '/' + hash + '.js').then(
-    (mod) => mod.default
-  );
+  if (!redirectToIndex()) {
+    render();
+  }
 
   setTimeout(() => {
     DATA.forEach((page) => {
-      components[page] = import(window.BASE_URL + '/' + page + '.js').then(
-        (mod) => mod.default
-      );
+      // TODO: prefetch
+      import(window.BASE_URL + '/' + page + '.js');
     });
   });
-  render();
 }
 
 async function render() {
   if (rendered[hash]) return;
   let _hash = hash;
-  const Component = await components[hash];
+  const { default: Component } = await import(
+    window.BASE_URL + '/' + hash + '.js'
+  );
   if (_hash === hash && !rendered[hash]) {
     new Component({ target: document.querySelector('#' + hash) });
     rendered[hash] = true;
