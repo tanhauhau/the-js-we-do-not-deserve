@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Recursive:wght@300&family=Source+Code+Pro&display=swap"
     rel="stylesheet">
-  <link href="/main.css" rel="stylesheet">
+  <link href="./main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -67,7 +67,6 @@ async function render() {
   let _hash = hash;
   const Component = await components[hash];
   if (_hash === hash && !rendered[hash]) {
-    console.log('!!render', hash, Component);
     new Component({ target: document.querySelector('#' + hash) });
     rendered[hash] = true;
   }

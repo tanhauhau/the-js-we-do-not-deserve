@@ -44,7 +44,6 @@ async function render() {
   let _hash = hash;
   const Component = await components[hash];
   if (_hash === hash && !rendered[hash]) {
-    console.log('!!render', hash, Component);
     new Component({ target: document.querySelector('#' + hash) });
     rendered[hash] = true;
   }
