@@ -17,7 +17,7 @@ import {
 	text,
 	transition_in,
 	transition_out
-} from "/the-js-not-have/svelte/internal.js";
+} from "/the-js-we-do-not-deserve/svelte/internal.js";
 
 import Disclaimer from "./Disclaimer.js";
 

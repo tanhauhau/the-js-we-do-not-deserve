@@ -12,7 +12,7 @@ import {
 	set_style,
 	space,
 	text
-} from "/the-js-not-have/svelte/internal.js";
+} from "/the-js-we-do-not-deserve/svelte/internal.js";
 
 function create_fragment(ctx) {
 	let h1;

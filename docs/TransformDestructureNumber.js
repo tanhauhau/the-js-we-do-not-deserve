@@ -10,7 +10,7 @@ import {
 	safe_not_equal,
 	set_style,
 	space
-} from "/the-js-not-have/svelte/internal.js";
+} from "/the-js-we-do-not-deserve/svelte/internal.js";
 
 function create_fragment(ctx) {
 	let h1;

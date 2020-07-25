@@ -10,7 +10,7 @@ import {
 	noop,
 	safe_not_equal,
 	space
-} from "/the-js-not-have/svelte/internal.js";
+} from "/the-js-we-do-not-deserve/svelte/internal.js";
 
 function add_css() {
 	var style = element("style");
