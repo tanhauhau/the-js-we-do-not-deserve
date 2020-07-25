@@ -118,10 +118,12 @@ function create_fragment(ctx) {
 	let iframe;
 	let iframe_src_value;
 	let t43;
-	let a1;
-	let t45;
 	let h24;
+	let t45;
+	let a1;
 	let t47;
+	let h25;
+	let t49;
 	let p10;
 
 	return {
@@ -186,12 +188,15 @@ function create_fragment(ctx) {
 			t42 = space();
 			iframe = element("iframe");
 			t43 = space();
+			h24 = element("h2");
+			h24.textContent = "🥰 Tweet";
+			t45 = space();
 			a1 = element("a");
 			a1.textContent = "Tweet";
-			t45 = space();
-			h24 = element("h2");
-			h24.textContent = "📦 Babel Plugin";
 			t47 = space();
+			h25 = element("h2");
+			h25.textContent = "📦 Babel Plugin";
+			t49 = space();
 			p10 = element("p");
 			p10.innerHTML = `<a href="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-roman-numbers" rel="nofollow"><img src="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-roman-numbers.svg" alt="npm version"></a>`;
 			attr(blockquote, "class", "twitter-tweet");
@@ -259,10 +264,12 @@ function create_fragment(ctx) {
 			insert(target, t42, anchor);
 			insert(target, iframe, anchor);
 			insert(target, t43, anchor);
-			insert(target, a1, anchor);
-			insert(target, t45, anchor);
 			insert(target, h24, anchor);
+			insert(target, t45, anchor);
+			insert(target, a1, anchor);
 			insert(target, t47, anchor);
+			insert(target, h25, anchor);
+			insert(target, t49, anchor);
 			insert(target, p10, anchor);
 		},
 		p: noop,
@@ -311,10 +318,12 @@ function create_fragment(ctx) {
 			if (detaching) detach(t42);
 			if (detaching) detach(iframe);
 			if (detaching) detach(t43);
-			if (detaching) detach(a1);
-			if (detaching) detach(t45);
 			if (detaching) detach(h24);
+			if (detaching) detach(t45);
+			if (detaching) detach(a1);
 			if (detaching) detach(t47);
+			if (detaching) detach(h25);
+			if (detaching) detach(t49);
 			if (detaching) detach(p10);
 		}
 	};

@@ -124,10 +124,12 @@ Object<span class="token punctuation">.</span><span class="token function">is</s
 	let iframe;
 	let iframe_src_value;
 	let t57;
-	let a4;
-	let t59;
 	let h24;
+	let t59;
+	let a4;
 	let t61;
+	let h25;
+	let t63;
 	let p10;
 
 	return {
@@ -196,12 +198,15 @@ Object<span class="token punctuation">.</span><span class="token function">is</s
 			t56 = space();
 			iframe = element("iframe");
 			t57 = space();
+			h24 = element("h2");
+			h24.textContent = "🥰 Tweet";
+			t59 = space();
 			a4 = element("a");
 			a4.textContent = "Tweet";
-			t59 = space();
-			h24 = element("h2");
-			h24.textContent = "Babel Plugin";
 			t61 = space();
+			h25 = element("h2");
+			h25.textContent = "Babel Plugin";
+			t63 = space();
 			p10 = element("p");
 			p10.innerHTML = `<a href="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-quadruple-equal" rel="nofollow"><img src="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-quadruple-equal.svg" alt="npm version"></a>`;
 			attr(a0, "href", "https://t.co/LMVvSIFdpx");
@@ -277,10 +282,12 @@ Object<span class="token punctuation">.</span><span class="token function">is</s
 			insert(target, t56, anchor);
 			insert(target, iframe, anchor);
 			insert(target, t57, anchor);
-			insert(target, a4, anchor);
-			insert(target, t59, anchor);
 			insert(target, h24, anchor);
+			insert(target, t59, anchor);
+			insert(target, a4, anchor);
 			insert(target, t61, anchor);
+			insert(target, h25, anchor);
+			insert(target, t63, anchor);
 			insert(target, p10, anchor);
 		},
 		p: noop,
@@ -327,10 +334,12 @@ Object<span class="token punctuation">.</span><span class="token function">is</s
 			if (detaching) detach(t56);
 			if (detaching) detach(iframe);
 			if (detaching) detach(t57);
-			if (detaching) detach(a4);
-			if (detaching) detach(t59);
 			if (detaching) detach(h24);
+			if (detaching) detach(t59);
+			if (detaching) detach(a4);
 			if (detaching) detach(t61);
+			if (detaching) detach(h25);
+			if (detaching) detach(t63);
 			if (detaching) detach(p10);
 		}
 	};

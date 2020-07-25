@@ -67,10 +67,12 @@ function create_fragment(ctx) {
 	let iframe;
 	let iframe_src_value;
 	let t30;
-	let a1;
-	let t32;
 	let h24;
+	let t32;
+	let a1;
 	let t34;
+	let h25;
+	let t36;
 	let p4;
 
 	return {
@@ -110,12 +112,15 @@ function create_fragment(ctx) {
 			t29 = space();
 			iframe = element("iframe");
 			t30 = space();
+			h24 = element("h2");
+			h24.textContent = "🥰 Tweet";
+			t32 = space();
 			a1 = element("a");
 			a1.textContent = "Tweet";
-			t32 = space();
-			h24 = element("h2");
-			h24.textContent = "📦 Babel Plugin";
 			t34 = space();
+			h25 = element("h2");
+			h25.textContent = "📦 Babel Plugin";
+			t36 = space();
 			p4 = element("p");
 			p4.innerHTML = `<a href="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-transform-nil" rel="nofollow"><img src="https://badge.fury.io/js/%40lihautan%2Fbabel-plugin-nil.svg" alt="npm version"></a>`;
 			attr(blockquote, "class", "twitter-tweet");
@@ -163,10 +168,12 @@ function create_fragment(ctx) {
 			insert(target, t29, anchor);
 			insert(target, iframe, anchor);
 			insert(target, t30, anchor);
-			insert(target, a1, anchor);
-			insert(target, t32, anchor);
 			insert(target, h24, anchor);
+			insert(target, t32, anchor);
+			insert(target, a1, anchor);
 			insert(target, t34, anchor);
+			insert(target, h25, anchor);
+			insert(target, t36, anchor);
 			insert(target, p4, anchor);
 		},
 		p: noop,
@@ -199,10 +206,12 @@ function create_fragment(ctx) {
 			if (detaching) detach(t29);
 			if (detaching) detach(iframe);
 			if (detaching) detach(t30);
-			if (detaching) detach(a1);
-			if (detaching) detach(t32);
 			if (detaching) detach(h24);
+			if (detaching) detach(t32);
+			if (detaching) detach(a1);
 			if (detaching) detach(t34);
+			if (detaching) detach(h25);
+			if (detaching) detach(t36);
 			if (detaching) detach(p4);
 		}
 	};
