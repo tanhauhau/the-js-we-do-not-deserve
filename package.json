@@ -8,7 +8,7 @@
   "devDependencies": {
     "es-module-lexer": "^0.3.24",
     "mdsvex": "^0.8.2",
-    "svelte": "^3.24.0",
+    "svelte": "^3.49.0",
     "tiny-glob": "^0.2.6"
   },
   "scripts": {
